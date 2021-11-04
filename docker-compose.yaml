@@ -1,0 +1,110 @@
+version: "3.8"
+
+services: 
+    db:
+        image: mongo:latest
+        restart: unless-stopped
+        volumes:
+            - db-data:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ultrasamad
+            MONGO_INITDB_ROOT_PASSWORD: ultrasamad
+            MONGO_INITDB_DATABASE: auction_app
+        ports:
+          - 27017:27017
+        container_name: mongodb
+        networks:
+            - auction-api-tier
+
+    mongo-express:
+        image: mongo-express:latest
+        restart: unless-stopped
+        environment:
+            ME_CONFIG_OPTIONS_EDITORTHEME: ambiance
+            ME_CONFIG_MONGODB_SERVER: db
+            ME_CONFIG_MONGODB_ADMINUSERNAME: ultrasamad
+            ME_CONFIG_MONGODB_ADMINPASSWORD: ultrasamad
+        ports:
+            - 8081:8081
+        container_name: 'mongo-express'
+        depends_on:
+            - db
+        networks:
+            - auction-api-tier
+
+    api:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile.dev
+        restart: unless-stopped
+        environment: 
+            PORT: 3000
+
+            DB_HOST: localhost
+            DB_PORT: 27017
+            DB_DATABASE: auction_db
+            DB_USER: ultrasamad
+            DB_PASSWORD: ultrasamad
+            AUTH_SOURCE: ultrasamad
+            MONGO_SERVICE: db
+            CONNECTION_MODE: 
+
+            COOKIE_SECRET: supersecret
+            ACCESS_TOKEN_SECRET: supersecret
+            REFRESH_TOKEN_SECRET: supersecret
+
+            SEED_DIR: src/seeds
+            AMQP_URL: 'amqp://guest:guest@rabbitmq:5672'
+        volumes: 
+            - ./backend:/home/node/app
+            - /home/node/app/node_modules
+        ports: 
+            - 3000:3000
+        container_name: auction-api
+        depends_on:
+            - db
+        networks:
+            - auction-api-tier
+
+    rabbitmq:
+        image: rabbitmq:3.8-management-alpine
+        container_name: rabbitmq
+        ports:
+            - 5672:5672
+            - 15672:15672
+        volumes:
+            - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq
+            - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+
+        networks:
+            - auction-api-tier
+
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        environment:
+            VITE_API_URL: http://localhost:3000/api
+
+        volumes:
+            - ./frontend:/usr/src/app/auction-frontend
+            - /usr/src/app/auction-frontend/node_modules
+        ports:
+            - 8000:8000
+        container_name: auction-frontend
+        depends_on:
+            - api
+        networks:
+            - auction-api-tier
+      
+volumes:
+    db-data:
+        driver: local
+    backend:
+        driver: local
+    frontend:
+        driver: local
+
+networks:
+    auction-api-tier:
+        driver: bridge
