@@ -7,7 +7,7 @@ A Scopic Software Take Home project developed using [NodeJS](https://nodejs.dev/
  * [Docker Compose](https://docs.docker.com/compose/)
 
 # How to run the project
- * Extract the zipped project files
+ * Clone the repository `git@github.com:ultrasamad/auction-app.git`
  * Go to the project root directory
  `$ cd auction-app`
  * Build the application
