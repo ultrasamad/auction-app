@@ -30,6 +30,10 @@ const Product = mongoose.model(
       biddingStatus: {
         type: mongoose.Schema.Types.String,
         default: "IDLE", //IDLE, ACTIVE, ENDED
+      },
+      autoBid: {
+        type: mongoose.Schema.Types.Boolean,
+        default: false,
       }
     },
     { timestamps: true },

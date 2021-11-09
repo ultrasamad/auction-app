@@ -1,4 +1,4 @@
-# Auction App - Samad Ibrahim
+# Auction App
 
 A Scopic Software Take Home project developed using [NodeJS](https://nodejs.dev/), [MongoDB](https://www.mongodb.com/) [VueJS](https://v3.vuejs.org/), and [Tailwind CSS](https://tailwindcss.com/).
 
@@ -10,11 +10,11 @@ A Scopic Software Take Home project developed using [NodeJS](https://nodejs.dev/
  * Clone the repository `$ git clone git@github.com:ultrasamad/auction-app.git`
  * Go to the project root directory
  `$ cd auction-app`
- * Build the application
+ * Build and start the docker containers
  `$ make start` or `$ docker-compose up`
   Note: This may take a couple of minutes depending on your internet connection.
 
- * Populate database with sample data
+ * Populate database with sample products
  `$ make seed` or `$ docker-compose exec api npm run seed`
 
  * Access the application

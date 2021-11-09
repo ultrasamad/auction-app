@@ -1,11 +1,6 @@
 
 const config = require('../../config');
 const { Product } = require('../../products/models');
-const { ProductService } = require('../../products/services');
-
-
-const productService = new ProductService(Product);
-
 module.exports = class BiddingService {
   constructor(Bidding) {
     this.Bidding = Bidding;

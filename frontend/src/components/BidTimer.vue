@@ -4,7 +4,12 @@
             <span class="text-2xl text-green-700 font-bold">
                 {{ timeRemaining }}
             </span>
-            <div class="text-xl font-bold font-serif">Remaining</div>
+            <div 
+                class="text-xl font-bold font-serif"
+                v-if="timeRemaining"
+            >
+                Remaining
+            </div>
         </div>
     </div>
 </template>

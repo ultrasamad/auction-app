@@ -2,13 +2,15 @@ const { Router } = require('express');
 const { celebrate, Joi } = require('celebrate');
 
 const { Bidding } = require('../../models');
+const { Product } = require('../../../products/models');
 const config = require('../../../config');
 const { BiddingService } = require('../../services');
-const { validateCreate } = require('../../middleware');
+const { ProductService } = require('../../../products/services')
 
 const router = Router();
 
 const biddingService = new BiddingService(Bidding);
+const productService = new ProductService(Product);
 
 module.exports = (routes) => {
   routes.use('', router);
@@ -18,6 +20,7 @@ module.exports = (routes) => {
       productId: Joi.string().trim().required(),
       userId: Joi.string().trim().required(),
       bidAmount: Joi.number().required(),
+      autoBid: Joi.boolean().required(),
     })
   }
 
@@ -26,7 +29,7 @@ module.exports = (routes) => {
     celebrate(createBidSchema),
     async (req, res, next) => {
       try {
-        const { productId, bidAmount } = req.body;
+        const { productId, bidAmount, autoBid } = req.body;
         const highestBid = await biddingService.highestBid(productId);
         if(highestBid && bidAmount <= highestBid.bidAmount) {
           return res.status(400).json({
@@ -34,11 +37,18 @@ module.exports = (routes) => {
             message: `Your Bid must be higher than the current highest Bid: GHS${highestBid.bidAmount}`
           })
         }
+        //update product autoBid
+        const bidding = await biddingService.create(req.body);
+        const product = await Product.findOneAndUpdate(
+          {_id: productId}, 
+          { autoBid }
+        )
+
         res.status(201).json({
           status: 'success',
           data: {
             message: 'Your bidding has been submitted successfully!',
-            bidding: await biddingService.create(req.body),
+            bidding: bidding,
           },
         });
       } catch (err) {

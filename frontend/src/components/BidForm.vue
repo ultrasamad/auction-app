@@ -5,7 +5,7 @@
                 type="checkbox" 
                 id="autoBidding"
                 class="rounded"
-                v-model="autoBidding"
+                v-model="autoBid"
             >
             <label for="autoBidding">Enable Auto Bidding</label>
         </div>
@@ -48,7 +48,7 @@ const props = defineProps({
 
 const loading = ref(false);
 const bidAmount = ref();
-const autoBidding = ref(false);
+const autoBid = ref(false);
 const showAlert = ref(false);
 const alertTitle = ref('');
 const alertBody = ref('');
@@ -62,6 +62,7 @@ const submitBid = async () => {
         bidAmount: bidAmount.value,
         productId: props.productId,
         userId: userID.value,
+        autoBid: autoBid.value,
     }
     try {
         const response = await createBidding(params);
