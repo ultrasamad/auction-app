@@ -73,6 +73,12 @@ app.use((req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
+
+  // const validationErrors = [];
+
+  // for(let [key, value] of err.details) {
+  //   validationErrors.push(value.details[0].message);
+  // }
   const status = isCelebrateError(err) ? 400 : err.status || 500;
   const message =
     config.app.env === 'production' && err.status === 500 ? 'Something Went Wrong!' : err.message;

@@ -1,5 +1,6 @@
-interface IBid {
+export default interface IBid {
     userId: string,
     bidAmount: number,
-    bidTime: Date,
+    productId: string,
+    createdAt: Date,
 }

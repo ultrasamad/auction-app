@@ -16,10 +16,6 @@ const Bidding = mongoose.model(
         type: Number,
         required: true
       },
-      bidTime: {
-        type: Date,
-        default: Date.now
-      }
     },
     { timestamps: true },
   ),

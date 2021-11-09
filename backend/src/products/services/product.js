@@ -9,7 +9,6 @@ module.exports = class ProductService {
   //Create new product
   async create(params) {
     if (await this.Product.findOne({ name: params.name }).exec()) {
-      //TODO: Log Product already exists and continue
       console.log('Product already exists');
     } else {
       const  product = await this.Product.create({

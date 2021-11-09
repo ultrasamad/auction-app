@@ -35,12 +35,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "@vue/reactivity";
+import { ref, onMounted, inject, computed } from "@vue/runtime-core";
 import { createBidding } from "../api/bidding.api";
 import MessageAlert from "./MessageAlert.vue";
 
 const props = defineProps({
-    productId: String
+    productId: {
+        type: String,
+        required: true,
+    }
 });
 
 const loading = ref(false);
@@ -50,27 +53,40 @@ const showAlert = ref(false);
 const alertTitle = ref('');
 const alertBody = ref('');
 
+const socketIO = ref<null|undefined>(null);
+const userID = computed(() => socketIO.value?.id);
+
 const submitBid = async () => {
-    loading.value = true;
+    // loading.value = true;
     const params = {
         bidAmount: bidAmount.value,
         productId: props.productId,
-        userId: 'fake-socket-client-id'
+        userId: userID.value,
     }
     try {
         const response = await createBidding(params);
+        const responseData = response.data.data;
         alertTitle.value = 'Success';
-        alertBody.value = response.data.data.message;
+        alertBody.value = responseData.message;
+        bidAmount.value = null;
+
+        //Emit to connected clients
+        const payload = responseData.bidding;
+        socketIO.value?.emit('bidding:create', payload);
     } catch (error) {
-        alertTitle.value = 'Error';
-        alertBody.value = 'An error occured';
+        const errorResponse =  error.response.data;
+        alertTitle.value = errorResponse.status;
+        alertBody.value = errorResponse.message;
     } finally {
         showAlert.value = true;
-        
     }
 }
 
 const closeAlert = () => {
     showAlert.value = false;
 }
+
+onMounted(() => {
+    socketIO.value = inject('socketio');
+});
 </script>

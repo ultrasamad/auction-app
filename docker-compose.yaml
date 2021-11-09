@@ -49,12 +49,9 @@ services:
             MONGO_SERVICE: db
             CONNECTION_MODE: 
 
-            COOKIE_SECRET: supersecret
-            ACCESS_TOKEN_SECRET: supersecret
-            REFRESH_TOKEN_SECRET: supersecret
-
             SEED_DIR: src/seeds
             AMQP_URL: 'amqp://guest:guest@rabbitmq:5672'
+            FRONT_END_URL: 'http://localhost:8000'
         volumes: 
             - ./backend:/home/node/app
             - /home/node/app/node_modules
@@ -84,7 +81,7 @@ services:
             context: ./frontend
             dockerfile: Dockerfile
         environment:
-            VITE_API_URL: http://localhost:3000/api
+            VITE_API_URL: http://localhost:3000
 
         volumes:
             - ./frontend:/usr/src/app/auction-frontend

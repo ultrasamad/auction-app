@@ -32,7 +32,7 @@
         </div>
 
         <div class="flex items-center">
-            <button class="flex mx-4 text-gray-600 focus:outline-none">
+            <button class="relative inline-block mx-4 text-gray-600 focus:outline-none">
                 <svg
                 class="w-6 h-6"
                 viewBox="0 0 24 24"
@@ -45,6 +45,12 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"/>
                 </svg>
+                <span 
+                    class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"
+                    v-if="notificationCount"
+                >
+                    {{ notificationCount }}
+                </span>
             </button>
 
             <div class="relative">
@@ -92,23 +98,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, onMounted, inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import useAuth from "../hooks/useAuth";
 import { useSidebar } from "../hooks/useSidebar";
+import IBid from "../types/Bid";
+import INotification from "../types/Notification";
 
 const props = defineProps({
     leftEndText: String,
 });
+const notifications = ref<INotification[]>([]);
+const socketIO = ref<null|undefined>(null);
+const dropdownOpen = ref(false);
 
 const route = useRoute();
 const router = useRouter();
+const { isOpen } = useSidebar();
+const { logout } = useAuth();
 
 const showDashboard = computed(() => route.name === 'home');
-const dropdownOpen = ref(false);
-const { isOpen } = useSidebar();
-
-const { logout } = useAuth();
+const notificationCount = computed(() => notifications.value.length);
 
 //Dummy implementation
 const logoutUser = () => {
@@ -117,5 +127,16 @@ const logoutUser = () => {
         name: 'login'
     });
 }
+
+onMounted(() => {
+    socketIO.value = inject('socketio');
+    socketIO.value?.on('bidding:created', (payload: IBid) => {
+        const notification = {
+            userId: payload.userId,
+            message: `New bid of GHS just ${payload.bidAmount} recorded`
+        }
+        notifications.value.unshift(notification);
+  });
+});
 
 </script>

@@ -5,5 +5,4 @@ module.exports = {
   cors: require('./cors'),
   seeder: require('./seeder'),
   db: require('./db'),
-  auth: require('./auth'),
 };
