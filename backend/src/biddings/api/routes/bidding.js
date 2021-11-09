@@ -39,11 +39,12 @@ module.exports = (routes) => {
         }
         //update product autoBid
         const bidding = await biddingService.create(req.body);
-        const product = await Product.findOneAndUpdate(
-          {_id: productId}, 
-          { autoBid }
-        )
-
+        if(autoBid === true) {
+          const product = await Product.findOneAndUpdate(
+            {_id: productId}, 
+            { autoBid }
+          )
+        }
         res.status(201).json({
           status: 'success',
           data: {

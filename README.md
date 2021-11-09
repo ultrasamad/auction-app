@@ -1,6 +1,6 @@
 # Auction App
 
-A Scopic Software Take Home project developed using [NodeJS](https://nodejs.dev/), [MongoDB](https://www.mongodb.com/) [VueJS](https://v3.vuejs.org/), and [Tailwind CSS](https://tailwindcss.com/).
+A Scopic Software Take Home project developed using [NodeJS](https://nodejs.dev/), [MongoDB](https://www.mongodb.com/), [VueJS](https://v3.vuejs.org/), and [Tailwind CSS](https://tailwindcss.com/).
 
 # Requirements
  * [Docker](https://www.docker.com/)
