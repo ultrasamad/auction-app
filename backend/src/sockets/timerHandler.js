@@ -5,18 +5,8 @@ module.exports = (io) => {
         const socket = this;
         console.log('Start timer');
         
-        //TODO: Temporal
         const totalSeconds = secondsDifference(payload.endTime);
         let counter = totalSeconds;
-        // console.log(counter);
-        // while(counter < 0) {
-        //     const load = {
-        //         time: humanReadable(payload.endTime),
-        //         productId: payload._id,
-        //     }
-        //     io.emit('timer:updated', load);
-        //     counter++
-        // }
         const timer = setInterval(() => {
             const load = {
                 time: humanReadable(payload.endTime),
