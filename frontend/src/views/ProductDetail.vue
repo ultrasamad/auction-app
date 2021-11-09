@@ -9,41 +9,45 @@
             </div>
             <div class="flex-grow">
                 <h3 class="font-semibold text-lg">{{ product?.name }}</h3>
-                <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
-                </p>
-                <p class="">
-                    <span class="font-semibold">Started at</span>: GHS {{ product?.initialPrice }}
-                </p>
-                <p class="">
-                    <span class="font-semibold">Now at</span>: GHS {{ product?.currentPrice }}
-                </p>
-                <p>
-                    <span class="font-semibold">Closing Time</span>: {{ product?.endTime }}
-                </p>
+                <div class="">
+                    <span class="font-semibold">BIDDING STATUS</span>:
+                    <span class="bg-blue-500 text-white px-2 rounded-sm">{{ product?.biddingStatus }}</span>
+                </div>
+                <div class="pt-1">
+                    <span class="font-semibold">STARTING PRICE</span>: {{ formattedPrice(product?.initialPrice as number) }}
+                </div>
+                <div class="pt-1">
+                    <span class="font-semibold">CURRENT PRICE</span>: {{ formattedPrice(product?.currentPrice as number) }}
+                </div>
+                <div class="mt-1">
+                    <span class="font-semibold">CLOSING TIME</span>: {{ product?.endTime }}
+                </div>
                 <BidForm :product-id="productId"/>            
             </div>
         </div>
         <div class="mx-auto">
-            <h2 class="text-2xl">Bid Timer</h2>
-            <BidTimer />
+            <h2 class="text-2xl">BID TIMER</h2>
+            <BidTimer :product-id="productId"/>
         </div>
     </div>
     <BidHistoryList :product-id="productId" />
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, provide } from "@vue/runtime-core";
+import { computed, onMounted, ref } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
 
 import BidButton from "../components/BidButton.vue";
 import BidForm from "../components/BidForm.vue";
 import BidHistoryList from "../components/BidHistoryList.vue";
+import BidTimer from "../components/BidTimer.vue";
+
 import useProduct from "../hooks/useProduct";
 import IProduct from "../types/Product";
 import { getProduct } from "../api/products.api";
-import BidTimer from "../components/BidTimer.vue";
 import { getBiddings } from "../api/bidding.api";
+import formattedPrice from "../utils/formatCurrency";
+import { formattedTime } from "../utils/datetime";
 
 const product = ref<IProduct>();
 const route = useRoute();

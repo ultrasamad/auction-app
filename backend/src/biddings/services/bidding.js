@@ -45,4 +45,9 @@ module.exports = class BiddingService {
     const bid = await this.Bidding.findOne({ productId }).sort('-bidAmount');
     return bid;
   }
+
+  //Purge records
+  async purge() {
+    await this.Bidding.deleteMany({});
+  }
 };

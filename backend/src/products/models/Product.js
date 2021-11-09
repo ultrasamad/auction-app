@@ -26,6 +26,10 @@ const Product = mongoose.model(
       endTime: {
         type: Date,
         required: true,
+      },
+      biddingStatus: {
+        type: mongoose.Schema.Types.String,
+        default: "IDLE", //IDLE, ACTIVE, ENDED
       }
     },
     { timestamps: true },

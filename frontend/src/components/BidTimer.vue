@@ -1,38 +1,37 @@
 <template>
-    <div class="border w-full p-4 rounded-full mt-4">
-        <div class="relative inline-flex items-center justify-center overflow-hidden rounded-full">
-            <svg class="w-20 h-20">
-                <circle
-                    class="text-gray-300"
-                    stroke-width="5"
-                    stroke="currentColor"
-                    fill="transparent"
-                    r="30"
-                    cx="40"
-                    cy="40"
-                />
-                <circle
-                    class="text-yellow-600"
-                    stroke-width="5"
-                    :stroke-dasharray="circumference"
-                    :stroke-dashoffset="circumference - percent / 100 * circumference"
-                    stroke-linecap="round"
-                    stroke="currentColor"
-                    fill="transparent"
-                    r="30"
-                    cx="40"
-                    cy="40"
-                />
-            </svg>
-            <span class="absolute text-xl text-blue-700">{{ percent }}</span>
+    <div class="border border-yellow-500 w-full p-4 rounded mt-4">
+        <div class="inline-flex flex-col space-y-2 items-center justify-center">
+            <span class="text-2xl text-green-700 font-bold">
+                {{ timeRemaining }}
+            </span>
+            <div class="text-xl font-bold font-serif">Remaining</div>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-    import { ref } from "@vue/runtime-core";
+import { ref, onMounted, inject } from "@vue/runtime-core";
+import IProduct from "../types/Product";
 
-    //TODO: Accept product as prop
-    const circumference = ref(30 * 2 * Math.PI);
-    const percent = 10;
+interface timerData {
+    time: string,
+    productId: string,
+}
+
+const props = defineProps({
+    productId: {
+        type: String,
+        required: true,
+    }
+});
+
+const timeRemaining = ref('');
+const socketIO = ref<null|undefined>(null);
+
+onMounted(() => {
+    socketIO.value = inject('socketio');
+    socketIO.value.on('timer:updated', (payload: timerData) => {
+        timeRemaining.value = payload.time;
+    });
+});
 </script>

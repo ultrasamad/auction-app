@@ -6,6 +6,7 @@ export default interface IProduct {
  initialPrice: number,
  currentPrice: number,
  endTime: string,
+ biddingStatus: string,
 }
 
 //startingPrice

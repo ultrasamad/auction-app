@@ -15,7 +15,7 @@ A Scopic Software Take Home project developed using [NodeJS](https://nodejs.dev/
   Note: This may take a couple of minutes depending on your internet connection.\
 
  * Populate database with sample data\
- `$ make seed` or `$ docker-compose seed`\
+ `$ make seed` or `$ docker-compose exec api npm run seed`\
 
  * Access the application\
   `http://localhost:8000`
@@ -23,3 +23,6 @@ A Scopic Software Take Home project developed using [NodeJS](https://nodejs.dev/
  * Stop containers
  `$ make stop` or `$ docker-compose stop`
 
+ # Additional information
+ - When you pull the new updates, please re-run the seeders: `$ make seed` or `$ docker-compose exec api npm run seed `
+ - On the unlikely condition the application fails to start, please rebuild the docker containers: `$ docker-compose build --no-cache`

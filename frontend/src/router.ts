@@ -3,8 +3,10 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Login from "./views/Login.vue";
 import Home from "./views/Home.vue";
 import Dashboard from "./views/Dashboard.vue";
+import NotFound from "./views/NotFound.vue";
 import ProductDetail from "./views/ProductDetail.vue";
 import useAuth from "./hooks/useAuth";
+
 
 const routes: RouteRecordRaw[] = [
     {
@@ -43,6 +45,15 @@ const routes: RouteRecordRaw[] = [
             requiresAuth: true,
         }
     },
+    {
+        path: "/:pathMatch(.*)*",
+        name: "404-not-found",
+        component: NotFound,
+        meta: {
+            layout: "default",
+            requiresAuth: false,
+        }
+    }
 ];
 
 const router =  createRouter({

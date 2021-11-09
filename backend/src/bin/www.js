@@ -39,13 +39,14 @@ const io = new Server(httServer, {
 
 const { createBidding } = require('../sockets/biddingsHandler')(io);
 const { startTimer, stopTimer } = require('../sockets/timerHandler')(io);
+const { activateBidding } = require('../sockets/productHandler')(io);
+
 const onConnection = (socket) => {
-  //TODO: Connection per product
-  console.log(`User has connected: ${socket.id}`);
 
   socket.on('timer:start', startTimer);
   socket.on('timer:stop', stopTimer);
   socket.on('bidding:create', createBidding);
+  socket.on('bidding:activate', activateBidding);
 };
 
 io.on('connection', onConnection);

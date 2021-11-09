@@ -1,5 +1,5 @@
 <template>
-    <h2>Welcome to 404 page</h2>
+    <h2>Sorry Page Not Found</h2>
 </template>
 
 <script lang="ts" setup>

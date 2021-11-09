@@ -9,7 +9,7 @@
                     {{ props.product?.name }}
                 </p>
                 <p class="text-md text-gray-800 mt-0 font-semibold">
-                    GHS {{ props.product?.initialPrice }}
+                    {{ formattedPrice(props.product?.initialPrice as number) }}
                 </p>
             </div>
         </div>
@@ -23,6 +23,7 @@
 import { PropType, computed } from 'vue';
 import IProduct from '../types/Product';
 import BidButton from "../components/BidButton.vue";
+import formattedPrice from '../utils/formatCurrency';
 
 const props = defineProps({
     product: Object as PropType<IProduct>
