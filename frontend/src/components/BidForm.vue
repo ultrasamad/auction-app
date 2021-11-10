@@ -12,7 +12,7 @@
         <div class="flex space-x-1 mt-1">
             <input 
                 type="number" 
-                class="w-40 rounded border-gray-200 rounded-md focus:border-yellow-600  focus:ring-yellow-500"
+                class="w-40 border-gray-200 rounded-md focus:border-yellow-600  focus:ring-yellow-500"
                 placeholder="Enter Your Bid"
                 required
                 autofocus

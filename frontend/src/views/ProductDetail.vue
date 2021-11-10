@@ -22,7 +22,10 @@
                 <div class="mt-1">
                     <span class="font-semibold">CLOSING TIME</span>: {{ product?.endTime }}
                 </div>
-                <BidForm :product-id="productId"/>            
+                <BidForm :product-id="productId" v-if="product?.biddingStatus === 'ACTIVE'"/>     
+                <div v-else class="mt-4">
+                    <span class="font-bold text-gray-700">Product Bidding not activated Yet!</span>
+                </div>
             </div>
         </div>
         <div class="mx-auto">
