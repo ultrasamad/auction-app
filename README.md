@@ -1,6 +1,6 @@
 # Auction App
 
-A Scopic Software Take Home project developed using [NodeJS](https://nodejs.dev/), [MongoDB](https://www.mongodb.com/), [VueJS](https://v3.vuejs.org/), and [Tailwind CSS](https://tailwindcss.com/).
+A Realtime Auction App developed using [NodeJS](https://nodejs.dev/), [MongoDB](https://www.mongodb.com/), [VueJS](https://v3.vuejs.org/), and [Tailwind CSS](https://tailwindcss.com/).
 
 # Requirements
  * [Docker](https://www.docker.com/)
@@ -27,3 +27,4 @@ A Scopic Software Take Home project developed using [NodeJS](https://nodejs.dev/
  # Additional information
  - When you pull the new updates, please re-run the seeders: `$ make seed` or `$ docker-compose exec api npm run seed `
  - On the unlikely condition the application fails to start, please rebuild the docker containers: `$ docker-compose build --no-cache`
+ > To start timer for a product, you need to activate auction for that product from the dashboard
