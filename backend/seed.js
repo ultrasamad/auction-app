@@ -34,13 +34,13 @@ mongoose.connection.on('connected', async () => {
     // creating an instance of the service used for seeding this model
     const service = new seed.Service(seed.Model);
 
-    console.log('Purging existing collections');
+    console.log(`Purging ${file} existing collection`);
     await service[seed.purgeMethod]();
 
     console.log(`seeding: ${file}`);
     // for each entry inside the list of data
-    for (const item of data) {
-      console.dir(item);
+    for (const [i, item]  of data.entries()) {
+      console.log(`Seeding Item #${i+1}`);
       try {
         // calling the create method from inside the service
         await service[seed.createMethod](item);

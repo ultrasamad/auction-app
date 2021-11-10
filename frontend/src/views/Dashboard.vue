@@ -57,7 +57,7 @@ const submitForm = async (productId: string) => {
     const response = await updateProduct(productId, params);
     const data = response.data.data;
     const { product } = data;
-    socketIO.value.emit('timer:start', product);
+    socketIO.value?.emit('timer:start', product);
 
     location.reload();
 

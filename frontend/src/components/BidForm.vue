@@ -36,6 +36,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, inject, computed } from "@vue/runtime-core";
+import { AxiosError } from "axios";
 import { createBidding } from "../api/bidding.api";
 import MessageAlert from "./MessageAlert.vue";
 

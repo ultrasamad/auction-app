@@ -54,7 +54,7 @@ import { formattedTime } from "../utils/datetime";
 
 const product = ref<IProduct>();
 const route = useRoute();
-const {id: productId } = route.params;
+const productId = route.params.id as string;
 
 onMounted( async() => {
     const response = await getProduct(productId as string);

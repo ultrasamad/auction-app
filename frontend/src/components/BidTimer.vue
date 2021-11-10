@@ -35,7 +35,7 @@ const socketIO = ref<null|undefined>(null);
 
 onMounted(() => {
     socketIO.value = inject('socketio');
-    socketIO.value.on('timer:updated', (payload: timerData) => {
+    socketIO.value?.on('timer:updated', (payload: timerData) => {
         const { productId, time } = payload;
         if(productId !== props.productId) return;
         
